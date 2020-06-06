@@ -1,5 +1,3 @@
-//fix rectangle, fix line, optional borders
-
 const canvas = document.getElementById('myCanvas'),
       ctx = canvas.getContext("2d");
 
@@ -24,28 +22,44 @@ class Line {
     }
 }
 class Rectangle {
-    constructor(coords, color = "#000", background = "rgba(255, 0, 0, 0.6)", borderWidth = 5){
+    constructor(coords, borderWidth = 0, color = "#000", background = "rgba(255, 0, 0, 0.6)"){
         this.startX = coords.startX;
         this.startY = coords.startY;
-        this.width = coords.width;
-        this.height = coords.height;
+        this.endX = coords.endX;
+        this.endY = coords.endY;
         this.color = color;
         this.background = background;
         this.borderWidth = borderWidth;
     }
     draw(){
             //draw figure
+            // ctx.fillStyle=this.background;
+            // ctx.fillRect(this.startX, this.startY, this.width, this.height);
+            ctx.beginPath();
+            ctx.moveTo(this.startX, this.startY);
+            ctx.lineTo(this.endX, this.startY);
+            ctx.lineTo(this.endX, this.endY);
+            ctx.lineTo(this.startX, this.endY);
+            ctx.lineTo(this.startX, this.startY);
             ctx.fillStyle=this.background;
-            ctx.fillRect(this.startX, this.startY, this.width, this.height);
+            ctx.fill();
             //draw border
-            ctx.strokeStyle = this.color;
-            ctx.lineWidth = this.borderWidth;
-            ctx.strokeRect(this.startX, this.startY, this.width, this.height);
+            if(this.borderWidth > 0) {
+                ctx.beginPath();
+                ctx.moveTo(this.startX, this.startY);
+                ctx.lineTo(this.endX, this.startY);
+                ctx.lineTo(this.endX, this.endY);
+                ctx.lineTo(this.startX, this.endY);
+                ctx.lineTo(this.startX, this.startY);
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = this.borderWidth;
+                ctx.stroke();
+            }
     }
 }
 
 class Triangle {
-    constructor(coords, color = "#000", background = "rgba(255, 0, 0, 1)", borderWidth = 5) {
+    constructor(coords, borderWidth = 0, color = "#000", background = "rgba(255, 0, 0, 1)") {
         this.firstX = coords.firstX;
         this.firstY = coords.firstY;
         this.secondX = coords.secondX;
@@ -66,14 +80,17 @@ class Triangle {
         ctx.fill();
 
         //draw border
-        ctx.beginPath();
-        ctx.moveTo(this.firstX, this.firstY);
-        ctx.lineTo(this.secondX, this.secondY);
-        ctx.lineTo(this.thirdX, this.thirdY);
-        ctx.strokeStyle = this.color
-        ctx.lineWidth = this.borderWidth;
-        ctx.stroke();
-        ctx.closePath();
+        if(this.borderWidth > 0) {
+            ctx.beginPath();
+            ctx.moveTo(this.firstX, this.firstY);
+            ctx.lineTo(this.secondX, this.secondY);
+            ctx.lineTo(this.thirdX, this.thirdY);
+            ctx.lineTo(this.firstX, this.firstY);
+            ctx.strokeStyle = this.color
+            ctx.lineWidth = this.borderWidth;
+            ctx.stroke();
+            ctx.closePath();
+        }
     }
 }
 class Circle {
@@ -94,16 +111,18 @@ class Circle {
 
 
         //draw border
-        ctx.beginPath();
-        ctx.arc(this.startX, this.startY, this.radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.borderWidth;
-        ctx.stroke();
-        ctx.closePath();
+        if(this.borderWidth > 0) {
+            ctx.beginPath();
+            ctx.arc(this.startX, this.startY, this.radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = this.borderWidth;
+            ctx.stroke();
+            ctx.closePath();
+        }
     }
 }
 class Ellipse {
-    constructor(coords, color = "#000", background = "rgba(255, 0, 0, 1)", borderWidth = 5) {
+    constructor(coords, borderWidth = 0, color = "#000", background = "rgba(255, 0, 0, 1)") {
         this.startX = coords.startX;
         this.startY = coords.startY;
         this.radiusX = coords.radiusX;
@@ -114,35 +133,44 @@ class Ellipse {
         this.borderWidth = borderWidth;
     }
     draw() {
-
+        //draw figure
         ctx.beginPath();
         ctx.ellipse(this.startX, this.startY, this.radiusX, this.radiusY, this.rotation, 0, 2 * Math.PI);
         ctx.fillStyle=this.background;
         ctx.fill();
         //draw border
-        ctx.beginPath();
-        ctx.ellipse(this.startX, this.startY, this.radiusX, this.radiusY, this.rotation, 0, 2 * Math.PI);
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.borderWidth;
-        ctx.stroke();
+        if(borderWidth > 0) {
+            ctx.beginPath();
+            ctx.ellipse(this.startX, this.startY, this.radiusX, this.radiusY, this.rotation, 0, 2 * Math.PI);
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = this.borderWidth;
+            ctx.stroke();
+        }
     }
 }
-const ellipse = new Ellipse (
-    coords = {
-            startX: 500,
-            startY: 400,
-            radiusX: 100,
-            radiusY: 50,
-            rotation: Math.PI / 6
-        }
-)
-ellipse.draw(); 
+
+const input = document.getElementById('command-input'),
+      btn = document.getElementById('input-btn');
+// const ellipse = new Ellipse (
+//     coords = {
+//             startX: 500,
+//             startY: 400,
+//             radiusX: 100,
+//             radiusY: 50,
+//             rotation: Math.PI / 6
+//         },
+//         borderWidth = 10
+// )
+// ellipse.draw(); 
 // const circle = new Circle (
 //     coords = {
 //         startX: 500,
 //         startY: 400,
 //         radius: 100
 //     },
+//     borderWidth = 4,
+//     color = 'blue',
+//     background = "rgba(0, 255, 0, 0.6)",
 // )
 // const circle2 = new Circle (
 //     coords = {
@@ -161,19 +189,20 @@ ellipse.draw();
 //         secondY: 100,
 //         thirdX: 150,
 //         thirdY: 200
-//     }
+//     },
+//     borderWidth = 2
 // )
 
 // const rectangle = new Rectangle(
 //     coords = {
 //         startX: 10,
 //         startY: 10,
-//         width: 500,
-//         height: 500
+//         endX: 500,
+//         endY: 500
 //     },
+//     borderWidth = 5,
 //     color = 'blue',
 //     background = "rgba(0, 255, 0, 0.6)",
-//     borderWidth = 25
 // )
 // rectangle.draw();
 // triangle.draw();
