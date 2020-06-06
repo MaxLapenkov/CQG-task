@@ -148,9 +148,45 @@ class Ellipse {
         }
     }
 }
-
+// line -p [50, 50] [100, 100] -c rgb(255, 0, 0) -b rgba(0, 255, 0, 0.3)
 const input = document.getElementById('command-input'),
       btn = document.getElementById('input-btn');
+
+btn.addEventListener('click', () => {
+    let string = input.value;
+    
+            let newString = string.replace(/\s+/g, ''),
+            indexP = newString.indexOf('-p'),
+            indexC = newString.indexOf('-c'),
+            indexB = newString.indexOf('-b'),
+            coordsString = '',
+            colorString = 'rgb(255, 0, 0)',
+            backgroundString = 'rgba(255, 0, 0, 1)';
+            console.log(newString, indexP, indexC)
+            if(indexC != -1) {
+                coordsString = newString.slice(indexP + 2, indexC);
+            if(indexB != -1) {
+                colorString = newString.slice(indexC + 2, indexB);
+                backgroundString = newString.slice(indexB + 2);
+            } else {
+                colorString = newString.slice(indexC + 2);
+            }
+            } else if(indexB != -1) {
+                coordsString = newString.slice(indexP + 2, indexB);
+                backgroundString = newString.slice(indexB + 2);
+            }
+            else {
+                coordsString = newString.slice(indexP + 2);
+            }
+        // colorString = newString.slice(indexC + 2);
+        console.log(coordsString.split(']['));
+        console.log(colorString);
+        console.log(backgroundString);
+    
+     
+    // .split('–c').split('–b')
+
+})
 // const ellipse = new Ellipse (
 //     coords = {
 //             startX: 500,
