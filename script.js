@@ -1,7 +1,7 @@
-// сделать треугольник, трапецию, ромб
 const canvas = document.getElementById('myCanvas'),
       ctx = canvas.getContext("2d");
 
+//Figure classes
 class Line {
     constructor(coords, color, lineWidth = 10){
         this.startX = coords.startX;
@@ -187,17 +187,17 @@ class Ellipse {
     }
 }
 
-const drawLine = () => {
- 
-}
 const input = document.getElementById('command-input'),
       btn = document.getElementById('input-btn');
       clear = document.getElementById('clear-btn');
+
+//action to clear canvas
 clear.addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 })
+
+//action to input text command
 btn.addEventListener('click', () => {
-    
     let string = input.value;
 
             let newString = string.replace(/\s+/g, ''),
