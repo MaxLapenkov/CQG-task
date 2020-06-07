@@ -7,12 +7,64 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <canvas id="myCanvas" width=1000 height= 800></canvas>
-   <div class="controls">
-    <input type="text" id="command-input">
-    <button id="input-btn">Отрисовать фигуру</button>
-    <button id="clear-btn">Очистить холст</button>
+    <div class="canvas-wrapper">
+        <div class="vertical-line">
+            <div class="vertical__number">0 -</div>
+            <div class="vertical__number">100 -</div>
+            <div class="vertical__number">200 -</div>
+            <div class="vertical__number">300 -</div>
+            <div class="vertical__number">400 -</div>
+            <div class="vertical__number">500 -</div>
+            <div class="vertical__number">600 -</div>
+            <div class="vertical__number">700 -</div>
+            <div class="vertical__number vertical__number--last">800 </div>
+        </div>
+        <div class="horizontal-line">
+            <div class="horizontal__number">0</div>
+            <div class="horizontal__number">100</div>
+            <div class="horizontal__number">200</div>
+            <div class="horizontal__number">300</div>
+            <div class="horizontal__number">400</div>
+            <div class="horizontal__number">500</div>
+            <div class="horizontal__number">600</div>
+            <div class="horizontal__number">700</div>
+            <div class="horizontal__number">800</div>
+            <div class="horizontal__number">900</div>
+            <div class="horizontal__number">1000</div>
+        </div>
+        <canvas id="myCanvas" width=1000 height= 800></canvas>
+    </div>
+   <div class="wrapper">
+        <h2>Введите команду</h2>
+        <input type="text" id="command-input">
+        <div class="btn-wrapper">
+            <button id="input-btn" class="btn">Отрисовать фигуру</button>
+            <button id="clear-btn" class="btn">Очистить холст</button>
+        </div>
+        <h2>Примеры команд</h2>
+        <p>
+            line -p [50, 50] [100, 100] -w 5 -c hsl(0, 100%, 50%) <br>
+            rectangle -p [50, 50] [100, 100] -w 5 -c rgb(0, 255, 0) -b rgba(255, 0, 0, 0.3) <br>
+            circle -p [75, 75] -w 5 -r1 25 -c rgb(255, 0, 0) -b rgba(0, 255, 0, 0.3) <br>
+            ellipse -p [75, 75] -w 2 -rot 6 -r1 50 -r2 25 -c rgb(0, 255, 0) -b rgba(255, 0, 0, 0.3) <br>
+            triangle -p [50, 50] [50, 100] [100, 100] -w 2 -c rgb(0, 0, 255) -b rgba(255, 0, 0, 0.3) <br>
+            quadrangle -p [50, 50] [50, 100] [100, 120] [100, 30] -w 2 -c rgb(0, 0, 255) -b rgba(255, 0, 0, 0.3)
+        </p>
+        <h2>Правила ввода</h2>
+        <p class="description">
+            Строка ввода должна начинаться с типа фигуры (доступно 6 видов фигур - line, rectangle, circle, ellipse, triangle, quadrangle).
+            Далее обязательным параметром являются координаты фигуры указанные после -p в квадратных скобках. Остальные параметры являются необязательными,
+            если не ввести их значения, то подставятся стандартные: Цвет линии - черный, заливка - белая, ширина линии = 2px, радиус круга = 50, радиусы эллипса 50 и 25, угол поворота эллипса PI / 2. <br>
+            Дополнительные параметры необходимо вводить по-порядку. Сначала -w (ширина), потом -rot (поворот) для эллипса, далее r1 и r2 (радиусы), затем -c (цвет) и -b (заливка).
+            Пропускать параметры можно.<br>
+            Параметр rot вводится одной цифрой, являющейся x в выражении PI / x. <br>
+            Типы цвета все, доступные в HTML и CSS: По имени, RGB, RGBA, HSL, HSLA. <br>
+            Размеры холста 1000х800. <br>
+            Отрисовка фигуры осуществляется кнопкой "Отрисовать фигуру". <br>
+            Очистка холста производится с помощью кнопки "Очистить холст".
+        </p>
    </div>
+   
 </body>
 <script src="script.js"></script>
 </html>

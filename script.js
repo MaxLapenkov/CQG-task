@@ -2,7 +2,6 @@
 const canvas = document.getElementById('myCanvas'),
       ctx = canvas.getContext("2d");
 
-
 class Line {
     constructor(coords, color, lineWidth = 10){
         this.startX = coords.startX;
@@ -92,6 +91,46 @@ class Triangle {
         }
     }
 }
+class Quadrangle {
+    constructor(coords, borderWidth = 0, color, background) {
+        this.firstX = coords.firstX;
+        this.firstY = coords.firstY;
+        this.secondX = coords.secondX;
+        this.secondY = coords.secondY;
+        this.thirdX = coords.thirdX;
+        this.thirdY = coords.thirdY;
+        this.fourthX = coords.fourthX;
+        this.fourthY = coords.fourthY;
+        this.color = color;
+        this.background = background;
+        this.borderWidth = borderWidth;
+    }
+    draw() {
+        //draw figure
+        ctx.beginPath();
+        ctx.moveTo(this.firstX, this.firstY);
+        ctx.lineTo(this.secondX, this.secondY);
+        ctx.lineTo(this.thirdX, this.thirdY);
+        ctx.lineTo(this.fourthX, this.fourthY );
+        ctx.lineTo(this.firstX, this.firstY);
+        ctx.fillStyle=this.background;
+        ctx.fill();
+
+        //draw border
+        if(this.borderWidth > 0) {
+            ctx.beginPath();
+            ctx.moveTo(this.firstX, this.firstY);
+            ctx.lineTo(this.secondX, this.secondY);
+            ctx.lineTo(this.thirdX, this.thirdY);
+            ctx.lineTo(this.fourthX, this.fourthY);
+            ctx.lineTo(this.firstX, this.firstY);
+            ctx.strokeStyle = this.color
+            ctx.lineWidth = this.borderWidth;
+            ctx.stroke();
+            ctx.closePath();
+        }
+    }
+}
 class Circle {
     constructor(coords, borderWidth = 0, color, background) {
         this.startX = coords.startX;
@@ -147,9 +186,10 @@ class Ellipse {
         }
     }
 }
-// line -p [50, 50] [100, 100] -c hsl(0, 100%, 50%)
-// circle -p [75, 75] -r1 25 -c rgb(255, 0, 0) -b rgba(0, 255, 0, 0.3)
-// ellipse -p [75, 75] -rot 6 -r1 50 -r2 25 -c rgb(0, 255, 0) -b rgba(255, 0, 0, 0.3)
+
+const drawLine = () => {
+ 
+}
 const input = document.getElementById('command-input'),
       btn = document.getElementById('input-btn');
       clear = document.getElementById('clear-btn');
@@ -157,8 +197,9 @@ clear.addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 })
 btn.addEventListener('click', () => {
-    let string = input.value;
     
+    let string = input.value;
+
             let newString = string.replace(/\s+/g, ''),
                 indexP = newString.indexOf('-p'),
                 indexC = newString.indexOf('-c'),
@@ -172,10 +213,9 @@ btn.addEventListener('click', () => {
                 r1String = '50',
                 r2String = '25',
                 rotString = '2',
-                widthString = '10',
+                widthString = '2',
                 backgroundString = 'white';
-            console.log(newString, indexP, indexC, indexR1, indexR2, indexRot, indexW)
-            
+
             if(indexC != -1) {
                 coordsString = newString.slice(indexP + 2, indexC);
                 if(indexB != -1) {
@@ -232,7 +272,8 @@ btn.addEventListener('click', () => {
         coordsString = coordsString.replace(/\[+/g, '').replace(/\]+/g, ',');
         coords = coordsString.split(',')
         coords.pop();
-
+        
+        
         if(string.includes('line')) {
             let line = new Line(
                 coords = {
@@ -246,6 +287,43 @@ btn.addEventListener('click', () => {
             )
             line.draw();
         }
+
+        if(string.includes('triangle')) {
+            let triangle = new Triangle(
+                        coords = {
+                            firstX: Number(coords[0]),
+                            firstY: Number(coords[1]),
+                            secondX: Number(coords[2]),
+                            secondY: Number(coords[3]),
+                            thirdX: Number(coords[4]),
+                            thirdY: Number(coords[5]),
+                        },
+                        borderWidth = Number(widthString),
+                        color = colorString,
+                        background = backgroundString,
+            )
+            triangle.draw();
+        }
+
+        if(string.includes('quadrangle')) {
+            let quadrangle = new Quadrangle(
+                        coords = {
+                            firstX: Number(coords[0]),
+                            firstY: Number(coords[1]),
+                            secondX: Number(coords[2]),
+                            secondY: Number(coords[3]),
+                            thirdX: Number(coords[4]),
+                            thirdY: Number(coords[5]),
+                            fourthX: Number(coords[6]),
+                            fourthY: Number(coords[7]),
+                        },
+                        borderWidth = Number(widthString),
+                        color = colorString,
+                        background = backgroundString,
+            )
+            quadrangle.draw();
+        }
+
         if(string.includes('rectangle')) {
             let rectangle = new Rectangle(
                     coords = {
@@ -260,6 +338,7 @@ btn.addEventListener('click', () => {
             )
             rectangle.draw();
         }
+
         if(string.includes('circle')) {
             let circle = new Circle(
                     coords = {
@@ -273,6 +352,7 @@ btn.addEventListener('click', () => {
             )
             circle.draw();
         }
+
         if(string.includes('ellipse')) {
             let ellipse = new Ellipse(
                     coords = {
@@ -288,89 +368,4 @@ btn.addEventListener('click', () => {
             )
             ellipse.draw();
         }
-        console.log(coords);
-        console.log(coordsString);
-        
-        console.log(colorString);
-        console.log(backgroundString);
-        console.log(r1String);
-        console.log(rotString);
-
 })
-// const ellipse = new Ellipse (
-//     coords = {
-//             startX: 500,
-//             startY: 400,
-//             radiusX: 100,
-//             radiusY: 50,
-//             rotation: Math.PI / 6
-//         },
-//         borderWidth = 10
-// )
-// ellipse.draw(); 
-// const circle = new Circle (
-//     coords = {
-//         startX: 500,
-//         startY: 400,
-//         radius: 100
-//     },
-//     borderWidth = 4,
-//     color = 'blue',
-//     background = "rgba(0, 255, 0, 0.6)",
-// )
-// const circle2 = new Circle (
-//     coords = {
-//         startX: 100,
-//         startY: 100,
-//         radius: 20
-//     }
-// )
-// circle.draw()
-// circle2.draw()
-// const triangle = new Triangle(
-//     coords = {
-//         firstX: 100,
-//         firstY: 100,
-//         secondX: 200,
-//         secondY: 100,
-//         thirdX: 150,
-//         thirdY: 200
-//     },
-//     borderWidth = 2
-// )
-
-// const rectangle = new Rectangle(
-//     coords = {
-//         startX: 10,
-//         startY: 10,
-//         endX: 500,
-//         endY: 500
-//     },
-//     borderWidth = 5,
-//     color = 'blue',
-//     background = "rgba(0, 255, 0, 0.6)",
-// )
-// rectangle.draw();
-// triangle.draw();
-// const line = new Line(
-//     coords = {
-//     startX: 0,
-//     startY: 0,
-//     endX: 500,
-//     endY: 500
-//     },
-//     color = "red",
-// );
-// // line.draw()
-// const line2 = new Line(
-//     coords = {
-//     startX: 1000,
-//     startY: 800,
-//     endX: 500,
-//     endY: 500
-//     },
-//     color = "green",
-// );
-// line.draw()
-// line2.draw()
-

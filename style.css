@@ -3,7 +3,7 @@
     margin: 0 auto;
     border: 2px solid black;
 }
-.controls {
+.wrapper {
     margin: 0 auto;
     margin-top: 20px;
     display: flex;
@@ -14,6 +14,74 @@
     width: 50%;
     padding: 5px;
 }
-#input-btn {
+
+.btn-wrapper {
+    width: 50%;
     margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.btn{
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+}
+#input-btn {
+    background-color: blue;
+}
+#clear-btn {
+    background-color: crimson;
+}
+.description {
+    width: 50%;
+}
+.canvas-wrapper{
+    margin-top: 20px;
+    position: relative;
+}
+.vertical-line {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    left: calc(50% - 530px);
+    top: -9px;
+}
+.vertical__number{
+    text-align: right;
+    margin-bottom: 82px;
+}
+.vertical__number--last {
+    margin-right: 10px;
+}
+.horizontal-line {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    left: calc(50% - 505px);
+    top: -20px;
+}
+.horizontal__number {
+    position: relative;
+    margin-left: calc(100px - 24.01px);
+}
+
+.horizontal__number::before {
+    position: absolute;
+    content: "|";
+    bottom: -10px;
+    left: calc(50% - 1px);
+}
+.horizontal__number:first-of-type {
+    margin-left: 0;
+}
+.horizontal__number:first-of-type::before {
+    display: none;
+}
+.horizontal__number:nth-of-type(2) {
+    margin-left: 85px;
+}
+.horizontal__number:last-of-type::before {
+    display: none;
 }
