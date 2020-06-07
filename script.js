@@ -188,9 +188,45 @@ class Ellipse {
 }
 
 const input = document.getElementById('command-input'),
-      btn = document.getElementById('input-btn');
-      clear = document.getElementById('clear-btn');
+      btn = document.getElementById('input-btn'),
+      clear = document.getElementById('clear-btn'),
+      cage = document.getElementById('cage-btn');
 
+const drawCage = () => {
+    for(let i = 0; i < 10; i++) {
+        let lineName = `vertical-line${i}`
+        lineName = new Line(
+            coords = {
+                startX: 100 * i,
+                startY: 0,
+                endX: 100 * i,
+                endY: 800
+                },
+                color = "black",
+                lineWidth = 1
+        )
+        lineName.draw();
+    }
+    for(let i = 0; i < 8; i++) {
+        let lineName = `horizontal-line${i}`
+        lineName = new Line(
+            coords = {
+                startX: 0 ,
+                startY: 100 * i,
+                endX: 1000,
+                endY: 100 * i
+                },
+                color = "black",
+                lineWidth = 1
+        )
+        lineName.draw();
+    }
+   
+}
+//action to show cage
+cage.addEventListener('click', () => {
+    drawCage();
+})
 //action to clear canvas
 clear.addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -200,21 +236,21 @@ clear.addEventListener('click', () => {
 btn.addEventListener('click', () => {
     let string = input.value;
 
-            let newString = string.replace(/\s+/g, ''),
-                indexP = newString.indexOf('-p'),
-                indexC = newString.indexOf('-c'),
-                indexB = newString.indexOf('-b'),
-                indexR1 = newString.indexOf('-r1'),
-                indexR2 = newString.indexOf('-r2'),
-                indexRot = newString.indexOf('-rot'),
-                indexW = newString.indexOf('-w'),
-                coordsString = '',
-                colorString = 'black',
-                r1String = '50',
-                r2String = '25',
-                rotString = '2',
-                widthString = '2',
-                backgroundString = 'white';
+        let newString = string.replace(/\s+/g, ''),
+            indexP = newString.indexOf('-p'),
+            indexC = newString.indexOf('-c'),
+            indexB = newString.indexOf('-b'),
+            indexR1 = newString.indexOf('-r1'),
+            indexR2 = newString.indexOf('-r2'),
+            indexRot = newString.indexOf('-rot'),
+            indexW = newString.indexOf('-w'),
+            coordsString = '',
+            colorString = 'black',
+            r1String = '50',
+            r2String = '25',
+            rotString = '2',
+            widthString = '2',
+            backgroundString = 'white';
 
             if(indexC != -1) {
                 coordsString = newString.slice(indexP + 2, indexC);
@@ -273,7 +309,7 @@ btn.addEventListener('click', () => {
         coords = coordsString.split(',')
         coords.pop();
         
-        
+
         if(string.includes('line')) {
             let line = new Line(
                 coords = {

@@ -41,6 +41,9 @@ h2{
 #clear-btn {
     background-color: crimson;
 }
+#cage-btn {
+    background-color: green;
+}
 .description {
     width: 50%;
 }
